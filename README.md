@@ -42,12 +42,23 @@ Once installed, the `claude` command will be available in your development conta
 │       └── test.sh
 └── .github
     └── workflows
-        └── test.yaml
+        ├── test.yaml
+        └── publish.yml
 ```
 
-## Testing
+## Workflows
 
-The repository includes GitHub Actions workflows that automatically test the feature installation across multiple base images (Debian, Ubuntu).
+### Testing
+The `test.yaml` workflow automatically tests the feature installation across multiple base images (Debian, Ubuntu) on every push and pull request.
+
+### Publishing
+The `publish.yml` workflow publishes the feature to GitHub Container Registry (ghcr.io) when:
+- Code is pushed to the `main` branch
+- Manually triggered via workflow dispatch
+
+The feature is published as: `ghcr.io/DarkWanderer/devcontainer-features/claude-code`
+
+**Note:** After publishing, you may need to make the package public in GitHub's package settings to use it without authentication.
 
 ## Documentation
 
