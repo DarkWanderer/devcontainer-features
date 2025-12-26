@@ -1,0 +1,36 @@
+name: "Publish Features to GHCR"
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: "Publish Features to GHCR"
+        uses: devcontainers/action@v1
+        with:
+          publish-features: "true"
+          base-path-to-features: "./src"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: "Publish result"
+        run: |
+          echo "✅ Features published successfully to ghcr.io/${{ github.repository_owner }}/devcontainer-features"
+          echo ""
+          echo "Usage example:"
+          echo '{'
+          echo '  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",'
+          echo '  "features": {'
+          echo '    "ghcr.io/${{ github.repository_owner }}/devcontainer-features/claude-code:1": {}'
+          echo '  }'
+          echo '}'
